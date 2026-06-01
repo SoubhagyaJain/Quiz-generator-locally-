@@ -1,0 +1,22 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: cimg/python:3.11
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            pip install langchain langchain-community langchain-core requests python-dotenv
+      - run:
+          name: Run tests
+          command: |
+            python -m pytest test_assistant.py -v
+
+workflows:
+  version: 2
+  test_workflow:
+    jobs:
+      - test
