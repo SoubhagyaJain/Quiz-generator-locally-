@@ -84,7 +84,9 @@ def assistant_chain(
     output_parser=None):
 
   if llm is None:
-    llm = OllamaLLM(model="gemma4:latest", temperature=0)
+    import os
+    base_url = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
+    llm = OllamaLLM(model="gemma4:latest", temperature=0, base_url=base_url)
   if output_parser is None:
     output_parser = StrOutputParser()
 

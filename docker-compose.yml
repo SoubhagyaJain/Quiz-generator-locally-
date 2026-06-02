@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  quiz-app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+    depends_on:
+      - ollama
+    # If you want to sync your code without rebuilding during dev, uncomment below:
+    # volumes:
+    #   - .:/app
+
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    # UNCOMMENT BELOW IF YOU HAVE NVIDIA DRIVERS & NVIDIA CONTAINER TOOLKIT
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+  # This service ensures the gemma4 model is downloaded to the ollama container
+  ollama-model-pull:
+    image: curlimages/curl:latest
+    depends_on:
+      - ollama
+    command: >
+      sh -c "
+        echo 'Waiting for Ollama to be ready...';
+        while ! curl -s http://ollama:11434/api/tags > /dev/null; do
+          sleep 2;
+        done;
+        echo 'Ollama is ready. Pulling gemma4:latest (this may take a while if not cached)...';
+        curl -s -X POST http://ollama:11434/api/pull -d '{\"name\": \"gemma4:latest\"}'
+        echo 'Model ready!';
+      "
+
+volumes:
+  ollama_data:

@@ -57,7 +57,32 @@ Instead of defaulting back to paid cloud APIs just to appease a CI/CD dashboard,
 3. **AI Engine (`app.py`)**: Defines the `assistant_chain`, system prompt guardrails, and knowledge bank.
 4. **Automated Testing (`test_assistant.py`)**: Validates model generation accuracy without human intervention.
 
-## 🚀 Quickstart: Run it Locally
+## 🐳 Docker Quickstart (Recommended)
+
+The easiest way to run the entire application (Frontend, API, and the Ollama LLM) is using Docker Compose.
+
+### 1. Clone & Start
+```bash
+git clone https://github.com/SoubhagyaJain/Quiz-generator-locally-.git
+cd Quiz-generator-locally-
+
+# Start the application in detached mode
+docker-compose up -d
+```
+
+### 2. Wait for the Model
+On the first run, Docker will automatically download the `gemma4:latest` model into the Ollama container. This might take a few minutes depending on your internet connection. You can watch the progress:
+```bash
+docker-compose logs -f ollama-model-pull
+```
+
+### 3. Open the UI
+Once the model is ready, open your browser and navigate to:
+**http://localhost:5000**
+
+---
+
+## 🚀 Quickstart: Run it Locally (Without Docker)
 
 ### 1. Clone & Setup
 ```bash

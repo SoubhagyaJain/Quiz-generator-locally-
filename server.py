@@ -10,10 +10,15 @@ from app import assistant_chain, system_message
 
 app = Flask(__name__, static_folder="static")
 
+import os
+
+OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
+
 # ── Faster LLM: cap output tokens so responses arrive quickly ──
 fast_llm = OllamaLLM(
     model="gemma4:latest",
     temperature=0,
+    base_url=OLLAMA_BASE_URL,
 )
 
 
