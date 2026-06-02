@@ -57,6 +57,46 @@ def generate_quiz():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+import glob
+import subprocess
+from flask import Response
+
+@app.route("/dashboard")
+def dashboard():
+    return send_from_directory("static", "dashboard.html")
+
+@app.route("/api/notebooks")
+def list_notebooks():
+    nbs = glob.glob("*.ipynb")
+    # exclude checkpoints and verified temps
+    nbs = [nb for nb in nbs if "checkpoint" not in nb and "verified" not in nb]
+    return jsonify({"notebooks": nbs})
+
+@app.route("/api/stream-notebook/<path:name>")
+def stream_notebook(name):
+    if not os.path.exists(name) or not name.endswith(".ipynb"):
+        return jsonify({"error": "Invalid notebook"}), 400
+
+    def generate():
+        # Spawn the executor in an isolated subprocess
+        # -u flag for unbuffered stdout so we get logs in real time
+        process = subprocess.Popen(
+            [sys.executable, "-u", "notebook_executor.py", name],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            bufsize=1
+        )
+        
+        for line in iter(process.stdout.readline, ''):
+            yield line
+            
+        process.stdout.close()
+        process.wait()
+
+    return Response(generate(), mimetype="text/event-stream")
+
+import sys
 
 def _parse_quiz(raw_response: str) -> list[str]:
     """

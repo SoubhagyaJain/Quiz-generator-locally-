@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipeline Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Navigation -->
+        <header class="top-nav">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                <span>Pipeline Dashboard</span>
+            </div>
+            <div class="controls">
+                <select id="notebook-select">
+                    <option value="">Loading notebooks...</option>
+                </select>
+                <button id="run-btn" class="run-btn" disabled>Run Pipeline</button>
+            </div>
+        </header>
+
+        <!-- Main Layout -->
+        <div class="main-layout">
+            <!-- Left Sidebar (Steps) -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h3>JOBS</h3>
+                </div>
+                <ul id="steps-list" class="steps-list">
+                    <li class="empty-state">Select a notebook and run to see steps.</li>
+                </ul>
+            </aside>
+
+            <!-- Main Content (Logs) -->
+            <main class="log-viewer">
+                <div class="log-header">
+                    <h3 id="current-step-title">Execution Logs</h3>
+                    <span id="pipeline-status" class="status-badge">Waiting</span>
+                </div>
+                <div class="terminal-container">
+                    <pre id="terminal-output">Ready to execute.</pre>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="dashboard.js"></script>
+</body>
+</html>
