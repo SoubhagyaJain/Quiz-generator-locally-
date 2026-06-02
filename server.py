@@ -14,7 +14,6 @@ app = Flask(__name__, static_folder="static")
 fast_llm = OllamaLLM(
     model="gemma4:latest",
     temperature=0,
-    num_predict=400,
 )
 
 
