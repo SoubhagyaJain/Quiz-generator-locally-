@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Generator — Powered by Gemma &amp; Ollama</title>
+  <meta name="description" content="AI-powered quiz generator with a liquid glass UI, running locally with Ollama and Gemma. Choose a category and get instant flash card quizzes." />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>" />
+</head>
+<body>
+
+  <!-- Animated Mesh Background (gives glass something to refract) -->
+  <div class="mesh-bg" aria-hidden="true">
+    <div class="mesh-orb"></div>
+    <div class="mesh-orb"></div>
+    <div class="mesh-orb"></div>
+    <div class="mesh-orb"></div>
+    <div class="mesh-orb"></div>
+  </div>
+
+  <!-- App Container -->
+  <div class="app-container">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header__badge">
+        <span class="dot"></span>
+        Ollama Online
+      </div>
+      <h1 class="header__title">
+        <span class="gradient-text">Quiz Generator</span>
+      </h1>
+      <p class="header__subtitle">
+        Pick a category and let your local AI craft a custom quiz — displayed as beautiful flash cards.
+      </p>
+    </header>
+
+    <!-- ═══════ SELECT VIEW ═══════ -->
+    <section id="select-view" class="view active" aria-label="Category selection">
+      <p class="section-title">Choose a category</p>
+
+      <div class="categories-grid">
+        <!-- Science -->
+        <div class="category-card glass" data-category="science" id="card-science" tabindex="0" role="button" aria-pressed="false">
+          <span class="category-card__check" aria-hidden="true">✓</span>
+          <span class="category-card__icon" aria-hidden="true">🔬</span>
+          <p class="category-card__name">Science</p>
+          <p class="category-card__desc">Physics, telescopes &amp; Da Vinci's discoveries</p>
+        </div>
+
+        <!-- Art -->
+        <div class="category-card glass" data-category="art" id="card-art" tabindex="0" role="button" aria-pressed="false">
+          <span class="category-card__check" aria-hidden="true">✓</span>
+          <span class="category-card__icon" aria-hidden="true">🎨</span>
+          <p class="category-card__name">Art</p>
+          <p class="category-card__desc">Van Gogh, Da Vinci &amp; the great museums</p>
+        </div>
+
+        <!-- Geography -->
+        <div class="category-card glass" data-category="geography" id="card-geography" tabindex="0" role="button" aria-pressed="false">
+          <span class="category-card__check" aria-hidden="true">✓</span>
+          <span class="category-card__icon" aria-hidden="true">🌍</span>
+          <p class="category-card__name">Geography</p>
+          <p class="category-card__desc">Cities, capitals &amp; world landmarks</p>
+        </div>
+      </div>
+
+      <div class="generate-section">
+        <button id="generate-btn" class="generate-btn" disabled>
+          <span class="generate-btn__icon">✨</span>
+          Generate Quiz
+        </button>
+      </div>
+    </section>
+
+    <!-- ═══════ LOADING VIEW ═══════ -->
+    <section id="loading-view" class="view" aria-label="Generating quiz">
+      <div class="loading-wrapper">
+        <div class="loading-glass glass">
+          <div class="loading-spinner" aria-hidden="true">
+            <div class="loading-spinner__ring"></div>
+            <div class="loading-spinner__ring"></div>
+            <div class="loading-spinner__ring"></div>
+          </div>
+          <p class="loading-text">
+            Generating <strong id="loading-category">Science</strong> quiz<span class="loading-dots"></span>
+          </p>
+          <p class="loading-subtext">Gemma is thinking locally — nothing leaves your machine</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ QUIZ VIEW (Flash Cards) ═══════ -->
+    <section id="quiz-view" class="view" aria-label="Quiz results">
+
+      <div class="quiz-header">
+        <div class="quiz-header__info">
+          <span class="quiz-header__icon" id="quiz-icon">🔬</span>
+          <div>
+            <h2 class="quiz-header__title" id="quiz-title">Science Quiz</h2>
+            <p class="quiz-header__count" id="quiz-count">3 questions generated</p>
+          </div>
+        </div>
+        <button id="back-btn" class="back-btn">← New Quiz</button>
+      </div>
+
+      <!-- Flash Card Stage -->
+      <div class="flashcard-stage">
+        <button class="nav-arrow" id="nav-prev" aria-label="Previous question" disabled>‹</button>
+
+        <div class="flashcard-viewport" id="flashcard-viewport">
+          <!-- Rendered by JS -->
+        </div>
+
+        <button class="nav-arrow" id="nav-next" aria-label="Next question" disabled>›</button>
+      </div>
+
+      <!-- Dot indicators -->
+      <div class="flashcard-dots" id="flashcard-dots"></div>
+
+      <!-- Counter -->
+      <p class="flashcard-counter" id="flashcard-counter"></p>
+
+      <!-- Raw response -->
+      <div class="raw-toggle">
+        <button id="raw-toggle-btn" class="raw-toggle__btn">▼ Show raw response</button>
+        <div id="raw-response" class="raw-response">
+          <pre id="raw-pre"></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="footer__text">
+        Running locally with
+        <span class="model-badge">🦙 gemma4:latest</span>
+        via Ollama
+      </p>
+    </footer>
+
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

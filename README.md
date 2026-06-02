@@ -54,10 +54,14 @@ cd Quiz-generator-locally-
 
 ### 2. Install dependencies:
 
-Ensure you have LangChain, PyTest, and the community integrations installed.
+```bash
+pip install -r requirements.txt
+```
+
+Or manually:
 
 ```bash
-pip install langchain langchain-community langchain-core pytest
+pip install langchain langchain-core langchain-ollama ollama python-dotenv pytest
 ```
 
 ### 3. Start your local model:
@@ -101,10 +105,11 @@ Quiz-generator-locally-/
 ├── quiz1.ipynb              # Interactive development notebook
 ├── app.py                   # Core quiz generator application
 ├── test_assistant.py        # Automated evaluation tests
+├── requirements.txt         # Python dependencies
 ├── .circleci/
 │   └── config.yml          # CircleCI pipeline configuration
 ├── README.md               # This file
-└── .venv/                  # Virtual environment
+└── .venv/                  # Virtual environment (optional)
 ```
 
 ## 🔧 Configuration

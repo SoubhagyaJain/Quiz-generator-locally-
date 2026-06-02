@@ -9,7 +9,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            pip install langchain langchain-community langchain-core requests python-dotenv
+            pip install langchain langchain-core langchain-ollama ollama python-dotenv pytest
       - run:
           name: Run tests
           command: |

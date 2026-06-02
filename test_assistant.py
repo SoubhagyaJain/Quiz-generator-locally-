@@ -1,9 +1,8 @@
 from app import assistant_chain
 from app import system_message
-from langchain.prompts                import ChatPromptTemplate
-# 1. Swapped import to use ChatOllama
-from langchain_community.chat_models  import ChatOllama
-from langchain.schema.output_parser   import StrOutputParser
+from langchain_core.prompts                import ChatPromptTemplate
+from langchain_ollama                    import OllamaLLM
+from langchain_core.output_parsers   import StrOutputParser
 
 import os
 
@@ -15,11 +14,14 @@ def eval_expected_words(
     question,
     expected_words,
     human_template="{question}",
-    # 2. Changed to local Gemma model
-    llm=ChatOllama(model="gemma4:latest", temperature=0),
-    output_parser=StrOutputParser()):
+    llm=None,
+    output_parser=None):
 
-  # 3. Passed all arguments to ensure your local LLM is actually used
+  if llm is None:
+    llm = OllamaLLM(model="gemma4:latest", temperature=0)
+  if output_parser is None:
+    output_parser = StrOutputParser()
+
   assistant = assistant_chain(system_message, human_template, llm, output_parser)
   answer = assistant.invoke({"question": question})
   print(answer)
@@ -34,11 +36,14 @@ def evaluate_refusal(
     question,
     decline_response,
     human_template="{question}", 
-    # 2. Changed to local Gemma model
-    llm=ChatOllama(model="gemma4:latest", temperature=0),
-    output_parser=StrOutputParser()):
+    llm=None,
+    output_parser=None):
 
-  # 3. Fixed the order of arguments (system_message first, human_template second)
+  if llm is None:
+    llm = OllamaLLM(model="gemma4:latest", temperature=0)
+  if output_parser is None:
+    output_parser = StrOutputParser()
+
   assistant = assistant_chain(system_message, 
                               human_template,
                               llm,

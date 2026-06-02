@@ -1,0 +1,24 @@
+# requirements.txt for Quiz-generator-locally-
+# This file ensures all modules import correctly with no "ModuleNotFoundError".
+#
+# Install with:
+#   PS C:\Users\jains\OneDrive\Desktop\Quiz-generator-locally-> pip install -r requirements.txt 
+WARNING: Cache entry deserialization failed, entry ignored
+ERROR: Operation cancelled by user
+PS C:\Users\jains\OneDrive\Desktop\Quiz-generator-locally-> (Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned) ; (& c:\Users\jains\OneDrive\Desktop\Quiz-generator-locally-\.venv\Scripts\Activate.ps1)
+(.venv) PS C:\Users\jains\OneDrive\Desktop\Quiz-generator-locally-> 
+
+#
+# Core dependencies for the quiz generator (LangChain + local Ollama)
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-ollama>=0.2.0
+
+# The official Ollama Python client (langchain-ollama depends on this to talk to ollama server)
+ollama>=0.4.0
+
+# For loading .env (used in test_assistant.py)
+python-dotenv>=1.0.0
+
+# For running the automated evaluation tests
+pytest>=8.0.0
